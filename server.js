@@ -27,8 +27,11 @@ function broadcast_usernames() {
   );
 }
 
-router.get("/start_web_socket", async (ctx) => {
-  const socket = await ctx.upgrade();
+router.get("/start_web_socket", (ctx) => {
+  if (!ctx.isUpgradable) {
+    ctx.throw(501);
+  }
+  const socket = ctx.upgrade();
   const username = ctx.request.url.searchParams.get("username");
   if (connectedClients.has(username)) {
     socket.close(1008, `Username ${username} is already taken`);
