@@ -3,8 +3,6 @@ const socket = new WebSocket(
   `wss://gk9-deno-chat-app.deno.dev/start_web_socket?username=${myUsername}`
 );
 
-socket.onopen = () => console.log("Connected to server");
-
 socket.onmessage = (m) => {
   const data = JSON.parse(m.data);
 
